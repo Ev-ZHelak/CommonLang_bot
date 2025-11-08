@@ -3,6 +3,11 @@ __pycache__/
 *.py[codz]
 *$py.class
 
+
+# test
+my_test/
+
+*.db
 config/config.yaml
 
 # C extensions

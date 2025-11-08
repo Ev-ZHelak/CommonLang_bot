@@ -1,0 +1,6 @@
+telegam_bot:
+  token: # Your token
+
+
+database:
+  path: # data/database.db

@@ -1,1 +1,1 @@
-from .config import TG_TOKEN
+from .config import *
