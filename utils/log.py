@@ -1,15 +1,17 @@
 import logging
 from logging.handlers import RotatingFileHandler
 from sys import stdout
-from config import LOG_FOLDER, LOG_LEVEL
+from config import get_log_level
 from functools import wraps
 import inspect
 from os import makedirs
 
 
-def create_logging(NAME_LOGGER: str = 'bot', NAME_FILE: str ='app', CONCOL: bool = True) -> logging.Logger:
+def create_logging(NAME_LOGGER: str = 'app', NAME_FILE: str = 'app', CONCOL: bool = True) -> logging.Logger:
+    """Создание логера"""
     # Создание папки для логов
-    makedirs(LOG_FOLDER, exist_ok=True)
+    makedirs('log', exist_ok=True)
+    LOG_LEVEL = get_log_level().upper()
 
     level_mapping = {
         'DEBUG': logging.DEBUG,
@@ -18,7 +20,7 @@ def create_logging(NAME_LOGGER: str = 'bot', NAME_FILE: str ='app', CONCOL: bool
         'ERROR': logging.ERROR,
         'CRITICAL': logging.CRITICAL
     }
-    if level_mapping.get(LOG_LEVEL.upper()):
+    if level_mapping.get(LOG_LEVEL):
         level = level_mapping[LOG_LEVEL]
     else:
         level = logging.NOTSET
@@ -32,7 +34,7 @@ def create_logging(NAME_LOGGER: str = 'bot', NAME_FILE: str ='app', CONCOL: bool
 
     # Handler для файла
     file_handler = RotatingFileHandler(
-        f'{LOG_FOLDER}/{NAME_FILE}.log',
+        f'log/{NAME_FILE}.log',
         maxBytes=1024 * 1024,  # 1 MB
         backupCount=5,  # хранить 5 backup файлов
         encoding='utf-8'
@@ -50,12 +52,15 @@ def create_logging(NAME_LOGGER: str = 'bot', NAME_FILE: str ='app', CONCOL: bool
 
     return logger
 
+# Создание логеров
 APP_LOGGER = create_logging()
 USER_LOGGER = create_logging(NAME_LOGGER='user', NAME_FILE='user_action')
 ERROR_LOGEER = create_logging(NAME_LOGGER='err', NAME_FILE='error')
 
+
 def exception_handler_log(func):
     '''Обработчик исключений с логированием (декоратор)'''
+
     @wraps(func)
     def wrapper(*args, **kwargs):
         try:
@@ -89,4 +94,5 @@ def exception_handler_log(func):
             ERROR_LOGEER.error(error_mesage)
 
             return False
+
     return wrapper

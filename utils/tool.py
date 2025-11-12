@@ -1,10 +1,4 @@
 from googletrans import Translator
-from os import makedirs
-
-
-def create_folder(path: str):
-    """Создать папку"""
-    makedirs('path', exist_ok=True)
 
 
 def get_flag_lang(lang: str) -> str:

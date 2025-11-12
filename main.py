@@ -2,7 +2,9 @@ import asyncio
 from app.bot import create_bot_dispatcher, setup_commands
 from app.handlers import textMessageHandler, commandMessageHandler
 from app.database.manager import DatabaseManager
+from app.initialize import setup
 
+setup()
 
 # Запуск бота
 async def main():

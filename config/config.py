@@ -23,3 +23,10 @@ def get_database_path():
     if not config.get('database', {}).get('path'):
         raise SystemExit("yaml: No database path provided")
     return config['database']['path']
+
+
+def get_log_level():
+    config = _load_config()
+    if not config.get('log', {}).get('level'):
+        raise SystemExit("yaml: No database path provided")
+    return config['log']['level']

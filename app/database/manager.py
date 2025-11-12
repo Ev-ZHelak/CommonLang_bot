@@ -6,7 +6,6 @@ import config
 
 class DatabaseManager:
     def __init__(self):
-        config.get_database_path()
         self.dbPath = config.get_database_path()
 
     def _get_connection(self):
