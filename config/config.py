@@ -1,17 +1,25 @@
 import yaml
 
-__all__ = ['get_bot_token', 'get_database_path']
+_config: dict | None = None
 
-__config = yaml.load(open('config/config.yaml', 'r'), Loader=yaml.SafeLoader)
+
+def _load_config():
+    global _config
+    if _config is None:
+        with open('config/config.yaml', 'r') as file:
+            _config = yaml.load(file, Loader=yaml.SafeLoader)
+    return _config
 
 
 def get_bot_token():
-    if not __config.get('telegam_bot', {}).get('token'):
+    config = _load_config()
+    if not config.get('telegam_bot', {}).get('token'):
         raise SystemExit("yaml: No token provided")
-    return __config['telegam_bot']['token']
+    return config['telegam_bot']['token']
 
 
 def get_database_path():
-    if not __config.get('database', {}).get('path'):
+    config = _load_config()
+    if not config.get('database', {}).get('path'):
         raise SystemExit("yaml: No database path provided")
-    return __config['database']['path']
+    return config['database']['path']

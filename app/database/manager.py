@@ -12,10 +12,10 @@ class DatabaseManager:
     def _get_connection(self):
         """Получение соединения с БД"""
         conn = sqlite3.connect(self.dbPath)
-        conn.row_factory = sqlite3.Row # Для доступа к колонкам по имени
+        conn.row_factory = sqlite3.Row  # Для доступа к колонкам по имени
         return conn
 
-    def create_user_table(self, ):
+    def create_user_table(self):
         """Создание таблици пользователя"""
         with self._get_connection() as conn:
             cursor = conn.cursor()
